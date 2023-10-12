@@ -20,7 +20,13 @@ class PromptGenerator:
 
         return res
 
-    def generate(
+    def _generate_dialogue_prompt(self, query: str):
+        message = f'QUESTION: {query}\n'
+        message += '=========\n' \
+                   'ANSWER:\n'
+        return self.dialog_prompt + '\n' + message
+
+    def _generate_search_prompt(
             self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6
     ) -> Tuple[str, Dict]:
 
@@ -30,37 +36,36 @@ class PromptGenerator:
         sources = self._generate_sources(len(search_documents))
         urls_and_sources = {source: i.get("url") for source, i in zip(sources, search_documents)}
 
-        if search_documents:
-            title_key = 'title'
-            context_key = 'context'
-            summaries_count = summaries_count if summaries_count < len(search_documents) else len(search_documents)
+        title_key = 'title'
+        context_key = 'context'
+        summaries_count = summaries_count if summaries_count < len(search_documents) else len(search_documents)
 
-            message = f'QUESTION: {query}\n' \
-                      '=========\n' \
-                      'SEARCH RESULT:\n'
+        message = f'QUESTION: {query}\n' \
+                  '=========\n' \
+                  'SEARCH RESULT:\n'
 
-            for i in range(summaries_count):
-                source = sources[i]
-                message += f'{i}.[\nContent: [{title_key}_{i}]{source} - {context_key}_{i}\n'
+        for i in range(summaries_count):
+            source = sources[i]
+            message += f'{i}.[\nContent: [{title_key}_{i}]{source} - {context_key}_{i}\n'
 
-            message += '=========\n' \
-                       'FINAL ANSWER: '
+        message += '=========\n' \
+                   'FINAL ANSWER: '
 
-            for index, doc in enumerate(search_documents):
-                title = doc[title_key]
-                context = doc[context_key]
+        for index, doc in enumerate(search_documents):
+            title = doc[title_key]
+            context = doc[context_key]
 
-                message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
+            message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
 
-            final_prompt = self.search_prompt + '\n' + message
-        else:
-            message = f'QUESTION: {query}\n'
-            message += '=========\n' \
-                       'ANSWER:\n'
-            final_prompt = self.dialog_prompt + '\n' + message
+        final_prompt = self.search_prompt + '\n' + message
 
         return final_prompt, urls_and_sources
 
-    def __call__(self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 5, *args,
+    def generate(self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6):
+        return self._generate_dialogue_prompt(query) if not search_documents else self._generate_search_prompt(
+            query, search_documents, summaries_count
+        )
+
+    def __call__(self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6, *args,
                  **kwargs):
         return self.generate(query, search_documents, summaries_count)
