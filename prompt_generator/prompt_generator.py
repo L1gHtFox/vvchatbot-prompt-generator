@@ -2,11 +2,13 @@ import json
 import logging
 from typing import List, Dict, Tuple
 
+from pkg_resources import resource_filename
+
 
 class PromptGenerator:
     def __init__(self):
         logging.info(f'[PROMPT]: Initializing {self.__class__}')
-        with open('prompt.json', encoding='utf-8') as f:
+        with open(resource_filename("prompt_generator", "prompt.json"), encoding='utf-8') as f:
             data = json.load(f)
             self.search_prompt = data['search']['system_prompt']
             self.dialog_prompt = data['dialogue']['system_prompt']
