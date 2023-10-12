@@ -5,7 +5,5 @@ setup(
     version='0.1',
     description='Prompt generator for VkusvillChatBot',
     author='Alexey Nikitin',
-    package_dir={"": "prompt_generator"},
-    packages=find_packages(where="prompt_generator"),
-
+    packages=['prompt_generator']
 )
