@@ -44,7 +44,7 @@ class PromptGenerator:
 
         message = f'QUESTION: {query}\n' \
                   '=========\n' \
-                  'SEARCH RESULT:\n'
+                  'SEARCH RESULT:'
 
         for i in range(summaries_count):
             source = sources[i]
