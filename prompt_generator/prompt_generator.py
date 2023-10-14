@@ -48,7 +48,7 @@ class PromptGenerator:
 
         for i in range(summaries_count):
             source = sources[i]
-            message += f'\n- {title_key}. {context_key} {source}'
+            message += f'\n- {title_key}_{i}. {context_key}_{i} {source}'
 
         message += '\n=========\n' \
                    'FINAL ANSWER: '
@@ -57,7 +57,7 @@ class PromptGenerator:
             title = doc[title_key]
             context = doc[context_key]
 
-            message = message.replace(f'{title_key}', title).replace(f'{context_key}', context)
+            message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
 
         final_prompt = self.search_prompt + '\n' + message
 
