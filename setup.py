@@ -8,5 +8,8 @@ setup(
     packages=find_packages(),
     package_data={
         'prompt_generator': ['prompt.json'],
-    }
+    },
+    install_requires=[
+        'nltk',
+    ],
 )

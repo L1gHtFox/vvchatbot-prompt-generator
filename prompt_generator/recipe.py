@@ -1,5 +1,6 @@
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
+
 
 @dataclass
 class Recipe:
@@ -17,9 +18,12 @@ class Recipe:
         :return:
         """
         return f"""
-        Общее время: {self.all_time} \n Активное время: {self.act_time} \n Сложность: {self.level} \n  
-        Рецепт: {self._clean_text(self.recipe)} \n Ингредиенты на 4 порции: {self.ingredients} \n Способ приготовления: 
-        {self._clean_text(self.value)} 
+        Общее время: {self.all_time} \n
+        Активное время: {self.act_time} \n 
+        Сложность: {self.level} \n  
+        Рецепт: {self._clean_text(self.recipe)} \n 
+        Ингредиенты на 4 порции: {self.ingredients} \n 
+        Способ приготовления: {self._clean_text(self.value)} 
         """
 
     @staticmethod

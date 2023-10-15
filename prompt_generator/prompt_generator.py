@@ -1,7 +1,6 @@
 import json
 import logging
 from typing import List, Dict, Tuple
-
 from pkg_resources import resource_filename
 
 
