@@ -58,7 +58,7 @@ class PromptGenerator:
 
             message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
 
-        final_prompt = self.search_prompt + '\n' + message
+        final_prompt = self.search_prompt + message
 
         return final_prompt, urls_and_sources
 
