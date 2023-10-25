@@ -1,6 +1,7 @@
 import json
 import logging
 from typing import List, Dict, Tuple
+
 from pkg_resources import resource_filename
 
 
@@ -21,11 +22,12 @@ class PromptGenerator:
 
         return res
 
-    def _generate_dialogue_prompt(self, query: str):
+    @staticmethod
+    def _generate_dialogue_prompt(query: str):
         message = f'QUESTION: {query}\n'
         message += '=========\n' \
                    'ANSWER:\n'
-        return self.dialog_prompt + '\n' + message
+        return message
 
     def _generate_search_prompt(
             self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6
@@ -42,8 +44,8 @@ class PromptGenerator:
         summaries_count = summaries_count if summaries_count < len(search_documents) else len(search_documents)
 
         message = '\n' + f'QUESTION: {query}\n' \
-                  '=========\n' \
-                  'SEARCH RESULT:'
+                         '=========\n' \
+                         'SEARCH RESULT:'
 
         for i in range(summaries_count):
             source = sources[i]
@@ -58,7 +60,7 @@ class PromptGenerator:
 
             message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
 
-        final_prompt = self.search_prompt + message
+        final_prompt = message
 
         return final_prompt, urls_and_sources
 
