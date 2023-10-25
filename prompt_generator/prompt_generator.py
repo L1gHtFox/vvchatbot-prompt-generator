@@ -27,7 +27,7 @@ class PromptGenerator:
         message = f'QUESTION: {query}\n'
         message += '=========\n' \
                    'ANSWER:\n'
-        return message
+        return message, None
 
     def _generate_search_prompt(
             self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6
