@@ -24,10 +24,7 @@ class PromptGenerator:
 
     @staticmethod
     def _generate_dialogue_prompt(query: str):
-        message = f'QUESTION: {query}\n'
-        message += '=========\n' \
-                   'ANSWER:\n'
-        return message, None
+        return query, None
 
     def _generate_search_prompt(
             self, query: str, search_documents: List[Dict[str, str]], summaries_count: int = 6
