@@ -6,12 +6,14 @@ from pkg_resources import resource_filename
 
 
 class PromptGenerator:
-    def __init__(self):
+    def __init__(self, add_system=False):
         logging.info(f'[PROMPT]: Initializing {self.__class__}')
         with open(resource_filename("prompt_generator", "prompt.json"), encoding='utf-8') as f:
             data = json.load(f)
             self.search_prompt = data['search']['system_prompt']
             self.dialog_prompt = data['dialogue']['system_prompt']
+
+        self.add_system = add_system
 
     @staticmethod
     def _generate_sources(num_sources: int):
@@ -57,7 +59,7 @@ class PromptGenerator:
 
             message = message.replace(f'{title_key}_{index}', title).replace(f'{context_key}_{index}', context)
 
-        final_prompt = message
+        final_prompt = message if not self.add_system else self.search_prompt + '\n' + message
 
         return final_prompt, urls_and_sources
 
