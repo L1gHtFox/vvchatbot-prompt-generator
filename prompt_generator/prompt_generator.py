@@ -36,7 +36,7 @@ class PromptGenerator:
 
         logging.info(f'[PROMPT]: Generating prompt for query {query}')
         sources = self._generate_sources(len(search_documents))
-        urls_and_sources = {source: i.get("url") for source, i in zip(sources, search_documents)}
+        urls_and_sources = {source: i for source, i in zip(sources, search_documents)}
 
         title_key = 'title'
         context_key = 'context'
