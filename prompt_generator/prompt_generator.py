@@ -39,7 +39,7 @@ class PromptGenerator:
         urls_and_sources = {source: i for source, i in zip(sources, search_documents)}
 
         title_key = 'title'
-        context_key = 'context'
+        context_key = 'description'
         summaries_count = summaries_count if summaries_count < len(search_documents) else len(search_documents)
 
         message = f'QUESTION: {query}\n' \
